@@ -57,7 +57,7 @@ jobs:
           registry-username: ${{ secrets.ACR_USERNAME }}
           registry-password: ${{ secrets.ACR_PASSWORD }}
           name: ${{ secrets.CONTAINER_NAME }}
-          location: eastus
+          location: uaenorth
           ports: 8501
           environment-variables: |
             GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}
