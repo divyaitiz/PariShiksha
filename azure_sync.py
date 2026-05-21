@@ -19,6 +19,8 @@ import os
 import sys
 import argparse
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 LOCAL_CHROMA_DIR = Path("./chroma_db")
 BLOB_PREFIX      = "chroma_db/"          # folder prefix inside the container
