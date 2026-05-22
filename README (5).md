@@ -2,6 +2,7 @@
 ### An End-to-End LLMOps Pipeline on Azure
 
 > **Live URL:** `http://ncert-qa-bot.uaenorth.azurecontainer.io:8501`
+> 
 > **GitHub:** [github.com/divyaitiz/PariShiksha](https://github.com/divyaitiz/PariShiksha)
 
 ---
@@ -530,7 +531,7 @@ The pipeline shows warnings about Node.js 20 actions being deprecated. These are
 | 15 | ACR authentication failure in pipeline | `unauthorized: authentication required` | ACR password secret was wrong in GitHub Secrets | Regenerated from Azure Portal → ncertregistry → Access Keys → copied correctly |
 
 
-## Screenshots of the errors encountered along the way and fixes:
+# Screenshots of the errors encountered along the way and fixes:
 
 **[screenshots/](https://github.com/divyaitiz/PariShiksha/tree/main/screenshots)**
 
