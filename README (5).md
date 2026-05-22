@@ -531,9 +531,7 @@ The pipeline shows warnings about Node.js 20 actions being deprecated. These are
 | 15 | ACR authentication failure in pipeline | `unauthorized: authentication required` | ACR password secret was wrong in GitHub Secrets | Regenerated from Azure Portal → ncertregistry → Access Keys → copied correctly |
 
 
-# Screenshots of the errors encountered along the way and fixes:
-
-**[screenshots/](https://github.com/divyaitiz/PariShiksha/tree/main/screenshots)**
+**Screenshots of the errors encountered along the way and fixes: [screenshots/](https://github.com/divyaitiz/PariShiksha/tree/main/screenshots)**
 
 Note: The screenshots folder also includes some proof screenshots as a validation for whether the activity was done or not.
 ---
