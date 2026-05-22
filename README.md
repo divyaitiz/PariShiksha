@@ -357,6 +357,73 @@ App loaded but gave `groq.AuthenticationError: Invalid API Key`. The `-e GROQ_AP
 
 ## 11. Azure Infrastructure Setup
 
+### Azure Tools Used:
+ 
+#### 1. Resource Group — `PariShiksha`
+A logical container that holds all Azure resources together. Every other resource (Storage, Registry, Container) was created inside it. Deleting the resource group deletes everything inside it.
+ 
+#### 2. Azure Storage Account — `ncertstorage`
+Cloud storage service for storing files. Used to persist `chroma_db/` across container restarts. Azure Container Instances are stateless — any local data is wiped on restart. Blob Storage solves this.
+ 
+**Key thing copied from here:** Connection string from Access Keys → used as `AZURE_STORAGE_CONNECTION_STRING` in `.env` and GitHub Secrets.
+ 
+#### 3. Azure Blob Container — `ncert-chromadb`
+A folder inside the Storage Account holding 5 ChromaDB files:
+```
+chroma_db/chroma.sqlite3
+chroma_db/401cf3b9-.../data_level0.bin
+chroma_db/401cf3b9-.../header.bin
+chroma_db/401cf3b9-.../length.bin
+chroma_db/401cf3b9-.../link_lists.bin
+```
+These 5 files ARE your vector store — 702 chunks of NCERT content with their embeddings.
+ 
+#### 4. Azure Container Registry (ACR) — `ncertregistry`
+A private Docker image registry on Azure. GitHub Actions pushes your Docker image here on every build. Azure Container Instance pulls the image from here on every deploy.
+ 
+**Key things copied from here:**
+- Login server: `ncertregistry.azurecr.io`
+- Username: `ncertregistry`
+- Password: from Access Keys → used as GitHub Secrets `ACR_USERNAME` and `ACR_PASSWORD`
+ 
+#### 5. Azure Container Instance (ACI) — `ncert-qa-bot`
+Runs your Docker container in the cloud without managing servers. Created with 2 CPU + 4GB RAM, port 8501 exposed, DNS label `ncert-qa-bot`.
+ 
+**What happens on every container startup:**
+```
+Container starts
+    ↓
+azure_sync.py runs → downloads chroma_db/ from Blob Storage
+    ↓
+streamlit run rag_chain.py
+    ↓
+BGE models load from HuggingFace (~2-3 minutes)
+    ↓
+App ready at ncert-qa-bot.uaenorth.azurecontainer.io:8501
+```
+ 
+#### 6. Azure Cloud Shell
+Browser-based terminal inside Azure Portal with Azure CLI pre-installed. Used when local Azure CLI login was not working with the student account.
+ 
+**Used for:**
+- `az container create` — deploy the container
+- `az container logs` — debug container issues
+- `az container show` — check container status and IP
+- `az ad sp create-for-rbac` — generate `AZURE_CREDENTIALS`
+ 
+#### 7. Service Principal (`AZURE_CREDENTIALS`)
+An identity created for GitHub Actions to log into Azure automatically. Generated via:
+ 
+```bash
+az ad sp create-for-rbac \
+  --name "ncert-qa-bot" \
+  --role contributor \
+  --scopes /subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/PariShiksha \
+  --sdk-auth
+```
+ 
+The JSON output was added as the `AZURE_CREDENTIALS` GitHub Secret — the bridge between GitHub Actions and Azure.
+
 ### Resources Created
 
 | Resource | Name | Location | Purpose |
