@@ -65,8 +65,8 @@ jobs:
             --dns-name-label ncert-qa-bot \
             --ports 8501 \
             --os-type Linux \
-            --cpu 1 \
-            --memory 2 \
+            --cpu 2 \
+            --memory 4 \
             --location uaenorth \
             --environment-variables \
               GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" \
