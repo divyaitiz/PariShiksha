@@ -50,19 +50,18 @@ PariShiksha represents the progress made from the foundational work established 
 That repository handled the core data extraction pipeline — converting NCERT Class 9 Science PDFs into structured JSON across all section types: informational text, exercises, activities, examples, in-chapter questions, think-and-act, and what-you-have-learnt sections.
 
 **PariShiksha takes that structured JSON output and builds the full LLMOps stack on top:**
-
+ 
 | Previous Repo | PariShiksha Adds |
 |---|---|
-| PDF → structured JSON extraction | Custom chunking strategy per section type |
-| Basic text processing | BGE-large embeddings (bge-large-en-v1.5) |
-| Raw JSON output | ChromaDB vector store with rich metadata |
-| — | BGE-reranker-large cross-encoder |
-| — | Groq LLM (Llama 3.3 70B) RAG chain |
-| — | Streamlit UI with source citations |
-| — | Docker containerization |
-| — | Azure Blob Storage for vector persistence |
-| — | GitHub Actions CI/CD |
-| — | Azure Container Instance deployment |
+| PDF → structured JSON extraction | Docker containerization |
+| Basic text processing | Azure Blob Storage for vector persistence |
+| Raw JSON output | GitHub Actions CI/CD |
+| Custom chunking strategy per section type |  Azure Container Instance deployment |
+| BGE-large embeddings (bge-large-en-v1.5) | — |
+| ChromaDB vector store with rich metadata | — |
+| BGE-reranker-large cross-encoder | — |
+| Groq LLM (Llama 3.3 70B) RAG chain | — |
+| Streamlit UI with source citations | — |
 
 ---
 
@@ -530,6 +529,12 @@ The pipeline shows warnings about Node.js 20 actions being deprecated. These are
 | 14 | IP address changed after recreation | Old IP stopped working | Every `az container delete` + `az container create` assigns a new public IP | Always use FQDN: `ncert-qa-bot.uaenorth.azurecontainer.io:8501` |
 | 15 | ACR authentication failure in pipeline | `unauthorized: authentication required` | ACR password secret was wrong in GitHub Secrets | Regenerated from Azure Portal → ncertregistry → Access Keys → copied correctly |
 
+
+Screenshots of the errors encountered along the way and fixes:
+
+**[screenshots/](https://github.com/divyaitiz/PariShiksha/tree/main/screenshots)**
+
+Note: The screenshots folder also includes some proof screenshots as a validation for whether the activity was done or not.
 ---
 
 ## 15. How a Query Works
